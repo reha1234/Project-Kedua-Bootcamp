@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "name": "Autonomous Mobile Robot System",
+    "start": "2021-01-12",
+    "end": "2024-02-11",
+    "desc": "Autonomous Mobile Robot (AMR) mengangkut barang, lalu saat sampai di lokasi tertentu robot memicu Event-Driven Notification System untuk mengirim pesan otomatis ke pengguna (misalnya 'Barang sudah tiba, Pak Budi'), dan akses ke ruangan dilakukan melalui Smart Door System.",
+    "techs": ["React JS", "JavaScript", "Node JS", "Socket IO"],
+    "img": "/asset/amr.jpg",
+    "createdAt": "2024-01-01T00:00:00.000Z"
+  }
+]

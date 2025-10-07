@@ -1,0 +1,47 @@
+{{> header}}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Get in Touch</h1>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <form id="contactForm">
+                        <div class="mb-3">
+                            <label class="form-label">Nama</label>
+                            <input type="text" class="form-control" placeholder="Masukkan nama lengkap" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" placeholder="Masukkan email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" placeholder="Masukkan nomor telepon">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Pesan</label>
+                            <textarea class="form-control" rows="5" placeholder="Tulis pesan Anda..." required></textarea>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Pesan berhasil dikirim!');
+        this.reset();
+    });
+</script>

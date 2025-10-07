@@ -1,0 +1,29 @@
+[
+  {
+    "id": 2,
+    "name": "ini bagian edit",
+    "start": "2025-10-01",
+    "end": "2025-10-06",
+    "desc": "ini detail project yang di edit",
+    "techs": [
+      "Next JS",
+      "React JS"
+    ],
+    "img": "/uploads/project-1759796388998-292152804.png",
+    "createdAt": "2025-10-07T00:19:49.008Z",
+    "updatedAt": "2025-10-07T00:20:32.449Z"
+  },
+  {
+    "id": 3,
+    "name": "fsdf",
+    "start": "2025-10-01",
+    "end": "2025-10-06",
+    "desc": "sdfsdf",
+    "techs": [
+      "Next JS",
+      "TypeScript"
+    ],
+    "img": "/uploads/project-1759796729256-694897149.png",
+    "createdAt": "2025-10-07T00:25:29.265Z"
+  }
+]

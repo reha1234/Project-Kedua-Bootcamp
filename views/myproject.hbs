@@ -1,0 +1,223 @@
+{{> header}}
+
+<div class="container mt-4">
+    <!-- Add Project Form -->
+    <section class="form-section text-center my-4">
+        <h3 class="fw-bold mb-4">ADD MY PROJECT</h3>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <form id="projectForm" class="text-start" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">Project Name</label>
+                        <input type="text" id="projectName" name="name" class="form-control" required>
+                        <div class="alert alert-danger mt-1" id="nameAlert" style="display: none;">
+                            Project name is required
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Start Date</label>
+                            <input type="date" id="startDate" name="start" class="form-control" required>
+                            <div class="alert alert-danger mt-1" id="startDateAlert" style="display: none;">
+                                Start date is required
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">End Date</label>
+                            <input type="date" id="endDate" name="end" class="form-control" required>
+                            <div class="alert alert-danger mt-1" id="endDateAlert" style="display: none;">
+                                End date is required
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-danger mb-3" id="dateValidationAlert" style="display: none;">
+                        End date must be after start date
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea rows="3" id="description" name="description" class="form-control" required></textarea>
+                        <div class="alert alert-danger mt-1" id="descAlert" style="display: none;">
+                            Description is required
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Technologies</label><br />
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" name="techs" value="Node JS" type="checkbox">
+                            <label class="form-check-label">Node JS</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" name="techs" value="Next JS" type="checkbox">
+                            <label class="form-check-label">Next JS</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" name="techs" value="React JS" type="checkbox">
+                            <label class="form-check-label">React JS</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" name="techs" value="TypeScript" type="checkbox">
+                            <label class="form-check-label">TypeScript</label>
+                        </div>
+                        <div class="alert alert-danger mt-1" id="techAlert" style="display: none;">
+                            Please select at least one technology
+                        </div>
+                    </div>
+
+                    <!-- Image Upload Section -->
+                    <div class="mb-3">
+                        <label class="form-label">Project Image</label>
+                        <input type="file" id="projectImage" name="projectImage" class="form-control" accept="image/*">
+                        <div class="form-text">
+                            Upload a project screenshot or image (Max 5MB, JPG/PNG/WebP)
+                        </div>
+                        <div class="alert alert-danger mt-1" id="imageAlert" style="display: none;">
+                            Please upload a valid image file
+                        </div>
+                        
+                        <!-- Image Preview -->
+                        <div class="mt-3" id="imagePreviewContainer" style="display: none;">
+                            <label class="form-label">Image Preview:</label>
+                            <div class="border rounded p-3 text-center">
+                                <img id="imagePreview" src="#" alt="Preview" class="img-fluid rounded" style="max-height: 200px;">
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeImagePreview()">
+                                        Remove Image
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-plus me-2"></i>Add Project
+                        </button>
+                        <button type="button" class="btn btn-secondary ms-2" onclick="resetForm()">
+                            <i class="fas fa-redo me-2"></i>Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects List -->
+    <section class="projects-section my-5">
+        <div class="container">
+            <h3 class="fw-bold text-center mb-4">MY PROJECT</h3>
+            <div id="projectsList" class="row">
+                {{#each projects}}
+                <div class="col-md-4 mb-4">
+                    <div class="card project-card shadow-sm h-100">
+                        {{#if this.img}}
+                        <img src="{{this.img}}" class="card-img-top" alt="{{this.name}}" style="height: 200px; object-fit: cover;">
+                        {{else}}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fas fa-image fa-3x text-muted"></i>
+                        </div>
+                        {{/if}}
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{this.name}}</h5>
+                            <p class="card-text text-muted small">
+                                <i class="fas fa-calendar me-1"></i>
+                                {{formatDate this.start}} - {{formatDate this.end}}
+                            </p>
+                            <p class="card-text flex-grow-1">
+                                {{truncate this.desc 100}}
+                            </p>
+                            <div class="mb-2">
+                                {{#each this.techs}}
+                                <span class="badge bg-primary tech-badge">{{this}}</span>
+                                {{/each}}
+                            </div>
+                            <div class="d-flex justify-content-between mt-auto">
+                                <a href="/project/{{this.id}}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-eye me-1"></i>View
+                                </a>
+                                <button class="btn btn-warning btn-sm" onclick="editProject({{this.id}})">
+                                    <i class="fas fa-edit me-1"></i>Edit
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteProject({{this.id}})">
+                                    <i class="fas fa-trash me-1"></i>Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Edit Project Modal -->
+<div class="modal fade" id="editProjectModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Project</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editProjectForm" enctype="multipart/form-data">
+                    <input type="hidden" id="editProjectId" name="id">
+                    <div class="mb-3">
+                        <label class="form-label">Project Name</label>
+                        <input type="text" id="editProjectName" name="name" class="form-control" required>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Start Date</label>
+                            <input type="date" id="editStartDate" name="start" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">End Date</label>
+                            <input type="date" id="editEndDate" name="end" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea rows="3" id="editDescription" name="description" class="form-control" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Technologies</label><br />
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" name="techs" value="Node JS" type="checkbox" id="editTechNode">
+                            <label class="form-check-label">Node JS</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" name="techs" value="Next JS" type="checkbox" id="editTechNext">
+                            <label class="form-check-label">Next JS</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" name="techs" value="React JS" type="checkbox" id="editTechReact">
+                            <label class="form-check-label">React JS</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" name="techs" value="TypeScript" type="checkbox" id="editTechTypeScript">
+                            <label class="form-check-label">TypeScript</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Project Image</label>
+                        <input type="file" id="editProjectImage" name="projectImage" class="form-control" accept="image/*">
+                        <div class="form-text">
+                            Leave empty to keep current image
+                        </div>
+                        <div id="currentImage" class="mt-2"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="updateProject()">Update Project</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/project.js"></script>
